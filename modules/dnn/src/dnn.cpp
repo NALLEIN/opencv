@@ -2420,7 +2420,8 @@ struct Net::Impl : public detail::NetImplBase
 #endif  // HAVE_WEBGPU
     }
 
-    void initCUDABackend() {
+    void initCUDABackend(const std::vector<LayerPin>& blobsToKeep_)
+    {
         CV_Assert(haveCUDA());
 
 #ifdef HAVE_CUDA

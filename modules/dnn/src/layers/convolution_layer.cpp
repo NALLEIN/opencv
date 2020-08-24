@@ -303,7 +303,7 @@ public:
                 return (preferableTarget == DNN_TARGET_CPU && backendId == DNN_BACKEND_OPENCV);
             else if (kernel_size.size() == 2)
                 return backendId == DNN_BACKEND_OPENCV ||
-                       backendId == DNN_BACKEND_HALIDE ||
+                       (backendId == DNN_BACKEND_HALIDE && !blobs.empty()) ||
                        (backendId == DNN_BACKEND_VKCOM && haveVulkan()) ||
                        (backendId == DNN_BACKEND_WGPU && haveWGPU());
             else
