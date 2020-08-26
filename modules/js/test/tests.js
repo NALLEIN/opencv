@@ -46,8 +46,7 @@ testrunner.run(
         code: 'opencv.js',
         tests: ['test_mat.js', 'test_utils.js', 'test_imgproc.js',
                 'test_objdetect.js', 'test_video.js', 'test_features2d.js',
-                'test_photo.js',
-                'test_calib3d.js'
+                'test_photo.js', 'test_calib3d.js', 'test_dnn.js'
         ],
     },
     function(err, report) {
