@@ -64,6 +64,17 @@ loadModel = async function(url) {
   });
 }
 
+function asyncForwardWrapper(net) {
+  let outputs = new cv.MatVector();
+  net.forward1(outputs);
+  return new Promise(function(resolve) {
+      Module.Asyncify.asyncFinalizers.push(function() {
+        resolve(outputs.get(0));
+        outputs.delete();
+      });
+  });
+}
+
 async function testCaffeLayer()
 {
     const prototxt = "layer_softmax.prototxt";
@@ -80,10 +91,10 @@ async function testCaffeLayer()
     net.setPreferableBackend(cv.DNN_BACKEND_WGPU);
     net.setPreferableTarget(cv.DNN_TARGET_WGPU);
     const start = performance.now();
-    const out = net.forward();
+    const out = await asyncForwardWrapper(net);
     const time = (performance.now() - start);
     console.log("Time cost(ms) :", time);
-    console.log(out);
+    console.log(out.data);
     net1 = cv.readNetFromCaffe(path.configPath, '');
     net1.setInput(input);
     net1.setPreferableBackend(cv.DNN_BACKEND_DEFAULT);
