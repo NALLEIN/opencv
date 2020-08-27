@@ -11,7 +11,6 @@ wgpu::Device createCppDawnDevice() {
 #ifdef HAVE_WEBGPU
 
 static std::shared_ptr<dawn_native::Instance> instance;
-static wgpu::BackendType backendType = wgpu::BackendType::Vulkan;
 
 void PrintDeviceError(WGPUErrorType errorType, const char* message, void*) {
     String errorTypeName = "";
@@ -48,7 +47,11 @@ wgpu::Device createCppDawnDevice() {
                                     [](const dawn_native::Adapter adapter) -> bool {
                                         wgpu::AdapterProperties properties;
                                         adapter.GetProperties(&properties);
-                                        return properties.backendType == backendType;
+#ifdef DAWN_METAL
+                                        return properties.backendType == wgpu::BackendType::Metal;
+#else
+                                        return properties.backendType == wgpu::BackendType::Vulkan;
+#endif 
                                     });
         backendAdapter = *adapterIt;
     }

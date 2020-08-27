@@ -4,6 +4,7 @@
 #include <dawn/webgpu_cpp.h>
 #endif  // HAVE_WEBGPU
 namespace wgpu {
+
     // AdapterType
 
     static_assert(sizeof(AdapterType) == sizeof(WGPUAdapterType), "sizeof mismatch for AdapterType");
@@ -320,7 +321,8 @@ namespace wgpu {
     static_assert(static_cast<uint32_t>(TextureFormat::BGRA8Unorm) == WGPUTextureFormat_BGRA8Unorm, "value mismatch for TextureFormat::BGRA8Unorm");
     static_assert(static_cast<uint32_t>(TextureFormat::BGRA8UnormSrgb) == WGPUTextureFormat_BGRA8UnormSrgb, "value mismatch for TextureFormat::BGRA8UnormSrgb");
     static_assert(static_cast<uint32_t>(TextureFormat::RGB10A2Unorm) == WGPUTextureFormat_RGB10A2Unorm, "value mismatch for TextureFormat::RGB10A2Unorm");
-    static_assert(static_cast<uint32_t>(TextureFormat::RG11B10Float) == WGPUTextureFormat_RG11B10Float, "value mismatch for TextureFormat::RG11B10Float");
+    static_assert(static_cast<uint32_t>(TextureFormat::RG11B10Ufloat) == WGPUTextureFormat_RG11B10Ufloat, "value mismatch for TextureFormat::RG11B10Ufloat");
+    static_assert(static_cast<uint32_t>(TextureFormat::RGB9E5Ufloat) == WGPUTextureFormat_RGB9E5Ufloat, "value mismatch for TextureFormat::RGB9E5Ufloat");
     static_assert(static_cast<uint32_t>(TextureFormat::RG32Float) == WGPUTextureFormat_RG32Float, "value mismatch for TextureFormat::RG32Float");
     static_assert(static_cast<uint32_t>(TextureFormat::RG32Uint) == WGPUTextureFormat_RG32Uint, "value mismatch for TextureFormat::RG32Uint");
     static_assert(static_cast<uint32_t>(TextureFormat::RG32Sint) == WGPUTextureFormat_RG32Sint, "value mismatch for TextureFormat::RG32Sint");
@@ -600,18 +602,6 @@ namespace wgpu {
             "offsetof mismatch for ComputePassDescriptor::nextInChain");
     static_assert(offsetof(ComputePassDescriptor, label) == offsetof(WGPUComputePassDescriptor, label),
             "offsetof mismatch for ComputePassDescriptor::label");
-
-    // CreateBufferMappedResult
-
-    static_assert(sizeof(CreateBufferMappedResult) == sizeof(WGPUCreateBufferMappedResult), "sizeof mismatch for CreateBufferMappedResult");
-    static_assert(alignof(CreateBufferMappedResult) == alignof(WGPUCreateBufferMappedResult), "alignof mismatch for CreateBufferMappedResult");
-
-    static_assert(offsetof(CreateBufferMappedResult, buffer) == offsetof(WGPUCreateBufferMappedResult, buffer),
-            "offsetof mismatch for CreateBufferMappedResult::buffer");
-    static_assert(offsetof(CreateBufferMappedResult, dataLength) == offsetof(WGPUCreateBufferMappedResult, dataLength),
-            "offsetof mismatch for CreateBufferMappedResult::dataLength");
-    static_assert(offsetof(CreateBufferMappedResult, data) == offsetof(WGPUCreateBufferMappedResult, data),
-            "offsetof mismatch for CreateBufferMappedResult::data");
 
     // DeviceProperties
 
@@ -1268,12 +1258,6 @@ namespace wgpu {
     void Buffer::MapAsync(MapMode mode, size_t offset, size_t size, BufferMapCallback callback, void * userdata) const {
         wgpuBufferMapAsync(Get(), static_cast<WGPUMapMode>(mode), offset, size, callback, reinterpret_cast<void * >(userdata));
     }
-    void Buffer::MapReadAsync(BufferMapReadCallback callback, void * userdata) const {
-        wgpuBufferMapReadAsync(Get(), callback, reinterpret_cast<void * >(userdata));
-    }
-    void Buffer::MapWriteAsync(BufferMapWriteCallback callback, void * userdata) const {
-        wgpuBufferMapWriteAsync(Get(), callback, reinterpret_cast<void * >(userdata));
-    }
     void Buffer::Unmap() const {
         wgpuBufferUnmap(Get());
     }
@@ -1438,14 +1422,6 @@ namespace wgpu {
     Buffer Device::CreateBuffer(BufferDescriptor const * descriptor) const {
         auto result = wgpuDeviceCreateBuffer(Get(), reinterpret_cast<WGPUBufferDescriptor const * >(descriptor));
         return Buffer::Acquire(result);
-    }
-    CreateBufferMappedResult Device::CreateBufferMapped(BufferDescriptor const * descriptor) const {
-        auto result = wgpuDeviceCreateBufferMapped(Get(), reinterpret_cast<WGPUBufferDescriptor const * >(descriptor));
-        return CreateBufferMappedResult {
-            Buffer::Acquire(result.buffer),
-            result.dataLength,
-            result.data
-        };
     }
     CommandEncoder Device::CreateCommandEncoder(CommandEncoderDescriptor const * descriptor) const {
         auto result = wgpuDeviceCreateCommandEncoder(Get(), reinterpret_cast<WGPUCommandEncoderDescriptor const * >(descriptor));
@@ -1921,5 +1897,7 @@ namespace wgpu {
     Proc GetProcAddress(Device const& device, const char* procName) {
         return reinterpret_cast<Proc>(wgpuGetProcAddress(device.Get(), procName));
     }
+
 }
-#endif
+
+#endif // __EMSCRIPTEN__
