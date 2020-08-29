@@ -49,8 +49,13 @@
 
 #ifdef HAVE_DNN_NGRAPH
 #include "../ie_ngraph.hpp"
+#if INF_ENGINE_VER_MAJOR_GT(INF_ENGINE_RELEASE_2020_4)
+#include <ngraph/op/roi_pooling.hpp>
+#include <ngraph/op/psroi_pooling.hpp>
+#else
 #include <ngraph/op/experimental/layers/roi_pooling.hpp>
 #include <ngraph/op/experimental/layers/psroi_pooling.hpp>
+#endif
 #endif
 
 #include "../op_vkcom.hpp"
@@ -104,6 +109,8 @@ public:
                 type = AVE;
             else if (pool == "stochastic")
                 type = STOCHASTIC;
+            else if (pool == "sum")
+                type = SUM;
             else
                 CV_Error(Error::StsBadArg, "Unknown pooling type \"" + pool + "\"");
 
@@ -205,7 +212,7 @@ public:
                 return type == MAX || type == AVE;
             }
             else
-                return type != STOCHASTIC;
+                return type != STOCHASTIC && type != SUM;
         }
 #endif
         if (backendId == DNN_BACKEND_INFERENCE_ENGINE_NGRAPH)
@@ -303,7 +310,7 @@ public:
                 maxPooling(inputs[0], outputs[0], mask);
                 break;
             }
-            case AVE:
+            case AVE: case SUM:
                 CV_Assert_N(inputs.size() == 1, outputs.size() == 1);
                 avePooling(inputs[0], outputs[0]);
                 break;
@@ -545,7 +552,7 @@ public:
     virtual Ptr<BackendNode> initNgraph(const std::vector<Ptr<BackendWrapper> >& inputs,
                                         const std::vector<Ptr<BackendNode> >& nodes) CV_OVERRIDE
     {
-        CV_Assert_N((inputs.size() == 1 && (type == MAX || type == AVE)) || inputs.size() == 2, nodes.size() == inputs.size());
+        CV_Assert_N((inputs.size() == 1 && (type == MAX || type == AVE || type == SUM)) || inputs.size() == 2, nodes.size() == inputs.size());
         auto& ieInpNode = nodes[0].dynamicCast<InfEngineNgraphNode>()->node;
 
         ngraph::op::PadType pad_type = ngraph::op::PadType::EXPLICIT;
@@ -559,6 +566,19 @@ public:
                             ngraph::Shape(pads_begin), ngraph::Shape(pads_end), ngraph::Shape(kernel_size),
                             exclude_pad, rounding_type, pad_type);
             return Ptr<BackendNode>(new InfEngineNgraphNode(ave_pool));
+        }
+        else if (type == SUM) {
+            ngraph::Shape inpShape = ieInpNode->get_shape();
+            CV_Assert(inpShape.size() == 2 + kernel_size.size());
+            std::vector<int64_t> axes;
+            for (size_t i = 0; i < kernel_size.size(); i++)
+            {
+                if (inpShape[2 + i] == kernel_size[i])
+                    axes.push_back(2 + i);
+            }
+            auto reduction_axes = std::make_shared<ngraph::op::Constant>(ngraph::element::i64, ngraph::Shape{axes.size()}, axes);
+            auto reduce_sum = std::make_shared<ngraph::op::v1::ReduceSum>(ieInpNode, reduction_axes, true);
+            return Ptr<BackendNode>(new InfEngineNgraphNode(reduce_sum));
         }
         else if (type == MAX) {
             auto max_pool = std::make_shared<ngraph::op::v1::MaxPool>(ieInpNode, ngraph::Strides(strides),
@@ -919,7 +939,7 @@ public:
                             }
                         }
                     }
-                else if (poolingType == AVE)
+                else if (poolingType == AVE || poolingType == SUM)
                 {
                     for( ; x0 < x1; ++x0)
                     {
@@ -930,7 +950,7 @@ public:
                         xend = min(xend, inp_width);
                         float inv_kernel_area = avePoolPaddedArea ? xdelta * ydelta * ddelta :
                                                 ((dend - dstart) * (yend - ystart) * (xend - xstart));
-                        inv_kernel_area = 1.0 / inv_kernel_area;
+                        inv_kernel_area = poolingType == AVE ? 1.0 / inv_kernel_area : 1.0;
 #if CV_SIMD128
                         if( isPool2D && xstart > 0 && x0 + 7 < x1 && (x0 + 7) * stride_w - pad_l + kernel_w < inp_width )
                         {
@@ -1275,6 +1295,7 @@ private:
         MAX,
         AVE,
         STOCHASTIC,
+        SUM,
         ROI,   // RoI pooling, https://arxiv.org/pdf/1504.08083.pdf
         PSROI  // Position-sensitive RoI pooling, https://arxiv.org/pdf/1605.06409.pdf
     };
