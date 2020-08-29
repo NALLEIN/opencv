@@ -2,7 +2,6 @@
 #include "../../precomp.hpp"
 #ifdef HAVE_WEBGPU
 #include <dawn/webgpu_cpp.h>
-#endif  // HAVE_WEBGPU
 namespace wgpu {
 
     // AdapterType
@@ -1899,5 +1898,5 @@ namespace wgpu {
     }
 
 }
-
+#endif  // HAVE_WEBGPU
 #endif // __EMSCRIPTEN__
