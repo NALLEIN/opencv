@@ -13,17 +13,17 @@
 #endif
 namespace cv { namespace dnn { namespace webgpu {
 #ifdef HAVE_WEBGPU
-class Buffer 
+class Buffer
 {
 public:
     Buffer(const std::shared_ptr<wgpu::Device> device);
-    Buffer(const std::shared_ptr<wgpu::Device> device, 
-           const void* data, size_t size, 
-           wgpu::BufferUsage usage = wgpu::BufferUsage::Storage | 
+    Buffer(const std::shared_ptr<wgpu::Device> device,
+           const void* data, size_t size,
+           wgpu::BufferUsage usage = wgpu::BufferUsage::Storage |
            wgpu::BufferUsage::CopyDst | wgpu::BufferUsage::CopySrc);
-    Buffer(const void* data, size_t size,  
+    Buffer(const void* data, size_t size,
            wgpu::BufferUsage usage = wgpu::BufferUsage::Uniform | wgpu::BufferUsage::CopyDst);
-    ~Buffer() 
+    ~Buffer()
     {
         if(buffer_) buffer_.Release();
         if(gpuReadBuffer_) gpuReadBuffer_.Release();
@@ -31,7 +31,7 @@ public:
     wgpu::Buffer * getWebGPUBuffer() { return & buffer_; }
     wgpu::BufferUsage getBufferUsage() { return usage_;}
     void setBufferData(const void * data, size_t size);
-    const void* MapReadAsyncAndWait(); 
+    const void* MapReadAsyncAndWait();
     void unMap() { if(gpuReadBuffer_) gpuReadBuffer_.Unmap(); }
     size_t getSize() { return size_; }
 private:

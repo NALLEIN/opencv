@@ -219,7 +219,7 @@ public:
         {
             return !computeMaxIdx && type != STOCHASTIC;
         }
-        if (backendId == DNN_BACKEND_OPENCV || backendId == DNN_BACKEND_HALIDE || 
+        if (backendId == DNN_BACKEND_OPENCV || backendId == DNN_BACKEND_HALIDE ||
             backendId == DNN_BACKEND_VKCOM || backendId == DNN_BACKEND_WGPU)
         {
             if (kernel_size.size() == 3)
@@ -229,7 +229,7 @@ public:
                        (backendId == DNN_BACKEND_HALIDE && haveHalide() &&
                            (type == MAX || (type == AVE && !pad_t && !pad_l && !pad_b && !pad_r))) ||
                        (backendId == DNN_BACKEND_VKCOM && haveVulkan() &&
-                           (type == MAX || type == AVE)) || 
+                           (type == MAX || type == AVE)) ||
                         (backendId == DNN_BACKEND_WGPU && haveWGPU() &&
                            (type == MAX || type == AVE));
             else

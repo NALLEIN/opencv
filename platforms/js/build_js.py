@@ -172,6 +172,7 @@ class Builder:
 
     def get_build_flags(self):
         flags = ""
+        flags += "-s USE_WEBGPU=1 -s ASYNCIFY -s EXTRA_EXPORTED_RUNTIME_METHODS=['Asyncify'] "
         if self.options.build_wasm:
             flags += "-s WASM=1 "
         elif self.options.disable_wasm:
@@ -186,8 +187,6 @@ class Builder:
             flags += "-msimd128 "
         if self.options.build_flags:
             flags += self.options.build_flags
-        if self.options.build_webgpu:
-            flags += "-s USE_WEBGPU=1 -s ASYNCIFY -s EXTRA_EXPORTED_RUNTIME_METHODS=['Asyncify'] "
         return flags
 
     def config(self):

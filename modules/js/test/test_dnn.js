@@ -22,7 +22,7 @@ createFileFromUrl = function(path, url, callback) {
     };
     request.send();
   };
-  
+
 // get name of model and config file from url
 function getNameFromUrl(url) {
     const modelParts = url.modelUrl.split('/');
@@ -34,7 +34,7 @@ function getNameFromUrl(url) {
         configPath: configPath
     }
 }
-  
+
 let modelLoaded = [];
 loadModel = async function(url) {
     path = getNameFromUrl(url);
@@ -57,7 +57,7 @@ loadModel = async function(url) {
         }
     });
 }
-  
+
 function asyncForwardWrapper(net) {
     let outputs = new cv.MatVector();
     net.forward1(outputs);
@@ -105,7 +105,7 @@ QUnit.test('test_layer_softmax', async function(assert) {
     const url = {
         modelUrl: layer_lrn_spatial,
         configUrl: ""
-    }; 
+    };
     const [out, out1] = await loadAndComputeCaffeLayer(url, inputSize);
 
     const EPSILON = 1;

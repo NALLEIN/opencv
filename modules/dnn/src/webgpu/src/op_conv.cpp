@@ -232,7 +232,7 @@ bool OpConv::forward(Tensor& in, Tensor& filter_weights, Tensor& bias, Tensor& o
                 runCommandBuffer();
             }
         };
-    } 
+    }
     else if(config_.shader_type == wConvShaderType48)
     {
         bindUniform(*uniformBuffer_, 4, bgEntries);

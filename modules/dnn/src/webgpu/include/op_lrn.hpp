@@ -60,4 +60,3 @@ private:
 }}} // namespace cv::dnn::webgpu
 
 #endif // OPENCV_DNN_WGPU_OP_LRN_HPP
-

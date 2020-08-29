@@ -37,7 +37,7 @@ namespace dnn
         bool deviceDirty;
     };
 
-    class WGPUBackendNode : public BackendNode 
+    class WGPUBackendNode : public BackendNode
     {
     public:
         WGPUBackendNode(const std::vector<Ptr<BackendWrapper> >& inputsWrapper,
@@ -55,7 +55,7 @@ namespace dnn
     };
 #endif  // HAVE_WEBGPU
 
-    void forwardWGPU(std::vector<Ptr<BackendWrapper> > &outputs, 
+    void forwardWGPU(std::vector<Ptr<BackendWrapper> > &outputs,
                     const Ptr<BackendNode>& node);
 
     bool haveWGPU();

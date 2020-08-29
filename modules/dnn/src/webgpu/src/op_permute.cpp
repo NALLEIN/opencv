@@ -96,13 +96,13 @@ void OpPermute::prepareStrides(const Shape &shape_before, const Shape &shape_aft
     }
 
     Shape shape(1, old_stride_.size());
-    if(! tensor_old_stride_) 
+    if(! tensor_old_stride_)
         tensor_old_stride_ = new Tensor(old_stride_.data(), shape, wFormatInt32);
-    else 
+    else
         tensor_old_stride_->reshape((const char*)old_stride_.data(), shape, wFormatInt32);
     if(! tensor_new_stride_)
         tensor_new_stride_ = new Tensor(new_stride_.data(), shape, wFormatInt32);
-    else 
+    else
         tensor_new_stride_->reshape((const char*)new_stride_.data(), shape, wFormatInt32);
 }
 

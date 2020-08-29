@@ -2374,7 +2374,7 @@ struct Net::Impl : public detail::NetImplBase
 #ifdef HAVE_WEBGPU
     if (!haveWGPU())
         return;
-    
+
         MapIdToLayerData::iterator it = layers.begin();
         for (; it != layers.end(); it++)
         {

@@ -18,7 +18,7 @@ namespace cv { namespace dnn { namespace webgpu {
 std::vector<uint32_t> compile(const std::string& name,
                               shaderc_shader_kind kind,
                               const std::string& data);
-void bindTensor(Tensor& tensor, uint32_t binding, 
+void bindTensor(Tensor& tensor, uint32_t binding,
                 std::vector<wgpu::BindGroupEntry>& bgEntries);
 void bindUniform(Buffer& buffer, uint32_t binding,
                  std::vector<wgpu::BindGroupEntry>& bgEntries);

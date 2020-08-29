@@ -10,7 +10,7 @@ Tensor::Tensor(Format fmt) : size_in_byte_(0), format_(fmt)
     device_ = wDevice;
 }
 
-Tensor::Tensor(const void* data, std::vector<int>& shape, Format fmt) 
+Tensor::Tensor(const void* data, std::vector<int>& shape, Format fmt)
 {
     createContext();
     device_ = wDevice;
@@ -52,7 +52,7 @@ int Tensor::dimNum() const
     return shape_.size();
 }
 
-Tensor Tensor::reshape(const void* data, const std::vector<int>& shape, 
+Tensor Tensor::reshape(const void* data, const std::vector<int>& shape,
                        bool alloc, Format fmt)
 {
     if (device_ == nullptr)
@@ -85,7 +85,7 @@ int Tensor::getFormat() const
     return format_;
 }
 
-void Tensor::copyTo(Tensor & dst) 
+void Tensor::copyTo(Tensor & dst)
 {
     dst.reshape(buffer_->MapReadAsyncAndWait(), shape_, true, format_);
 }

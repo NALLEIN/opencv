@@ -30,7 +30,7 @@ OpBase::~OpBase()
     if(uniformBuffer_) uniformBuffer_->getWebGPUBuffer()->Release();
 }
 
-void OpBase::createBindGroupLayout(int buffer_num) 
+void OpBase::createBindGroupLayout(int buffer_num)
 {
     if(buffer_num <= 0)
         return;
@@ -76,8 +76,8 @@ void OpBase::createBindGroup()
     bindgroup_ = device_->CreateBindGroup(&bgDesc);
 }
 
-void OpBase::createShaderModule(const uint32_t* spv, uint32_t size,  
-                                const std::string& source) 
+void OpBase::createShaderModule(const uint32_t* spv, uint32_t size,
+                                const std::string& source)
 {
     wgpu::ShaderModuleSPIRVDescriptor spirvDesc;
     if(spv) {
@@ -98,7 +98,7 @@ void OpBase::createShaderModule(const uint32_t* spv, uint32_t size,
     module_ = device_->CreateShaderModule(&descriptor);
 }
 
-void OpBase::createComputePipeline() 
+void OpBase::createComputePipeline()
 {
     wgpu::PipelineLayoutDescriptor descriptor;
     descriptor.bindGroupLayoutCount = 1;
@@ -112,7 +112,7 @@ void OpBase::createComputePipeline()
     pipeline_ = device_->CreateComputePipeline(&csDesc);
 }
 
-void OpBase::createCommandBuffer() 
+void OpBase::createCommandBuffer()
 {
     wgpu::CommandEncoder encoder = device_->CreateCommandEncoder();
     cv::AutoLock lock(wContextMtx);
@@ -122,10 +122,10 @@ void OpBase::createCommandBuffer()
     pass.Dispatch(group_x_, group_y_, group_z_);
     pass.EndPass();
 
-    cmd_buffer_ = encoder.Finish(); 
+    cmd_buffer_ = encoder.Finish();
 }
 
-void OpBase::runCommandBuffer() 
+void OpBase::runCommandBuffer()
 {
     cv::AutoLock lock(wContextMtx);
     wQueue->Submit(1, &cmd_buffer_);

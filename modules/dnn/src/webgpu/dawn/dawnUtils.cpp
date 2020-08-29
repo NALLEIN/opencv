@@ -51,7 +51,7 @@ wgpu::Device createCppDawnDevice() {
                                         return properties.backendType == wgpu::BackendType::Metal;
 #else
                                         return properties.backendType == wgpu::BackendType::Vulkan;
-#endif 
+#endif
                                     });
         backendAdapter = *adapterIt;
     }

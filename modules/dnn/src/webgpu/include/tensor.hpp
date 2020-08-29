@@ -15,7 +15,7 @@ class Buffer;
 class Tensor{
 public:
     Tensor(Format fmt = wFormatFp32);
-    Tensor(const void* data, std::vector<int>& shape,  
+    Tensor(const void* data, std::vector<int>& shape,
            Format fmt = wFormatFp32);
     const void* mapRead();
     void unMap();
@@ -26,8 +26,8 @@ public:
     // Change shape and format to as passed in.
     // Copy data if data != NULL
     // Allocate new internal buffer if new size > old size or alloc flag is true
-    Tensor reshape(const void* data, const std::vector<int>& shape, 
-                   bool alloc = false, 
+    Tensor reshape(const void* data, const std::vector<int>& shape,
+                   bool alloc = false,
                    Format fmt = wFormatFp32);
     int getFormat() const;
     size_t size() const { return size_in_byte_; }
@@ -40,7 +40,7 @@ private:
     size_t size_in_byte_;
     std::shared_ptr<Buffer> buffer_;
     Format format_ = wFormatFp32;
-    wgpu::BufferUsage usage_ = wgpu::BufferUsage::Storage | 
+    wgpu::BufferUsage usage_ = wgpu::BufferUsage::Storage |
     wgpu::BufferUsage::CopySrc | wgpu::BufferUsage::CopyDst;
 };
 

@@ -5,22 +5,58 @@
 
  Refer to [Dawn's build instructions](https://dawn.googlesource.com/dawn/+/HEAD/docs/buiding.md)  to complete the compilation of Dawn, and the directory structure is retained in opencv/3rdparty/include/webgpu to facilitate subsequent copying of the required files.
 
+### Folder structure of 3rdparty/include/webgpu
+
+The folder structure of prebuild Dawn should be:
+webgpu
+├─README.md
+├─lib
+|  ├─libVkLayer_khronos_validation.so (for linux only)
+|  ├─libc++.so(.dylib)
+|  ├─libdawn_native.so(.dylib)
+|  ├─libdawn_proc.so(.dylib)
+|  ├─libdawn_wire.so(.dylib)
+|  └libshaderc_spvc.so(.dylib)
+├─include
+|    ├─dawn_wire
+|    |     ├─Wire.h
+|    |     ├─WireClient.h
+|    |     ├─WireServer.h
+|    |     └dawn_wire_export.h
+|    ├─dawn_platform
+|    |       └DawnPlatform.h
+|    ├─dawn_native
+|    |      ├─D3D12Backend.h
+|    |      ├─DawnNative.h
+|    |      ├─MetalBackend.h
+|    |      ├─NullBackend.h
+|    |      ├─OpenGLBackend.h
+|    |      ├─VulkanBackend.h
+|    |      └dawn_native_export.h
+|    ├─dawn
+|    |  ├─EnumClassBitmasks.h
+|    |  ├─dawn_proc.h
+|    |  ├─dawn_proc_table.h
+|    |  ├─dawn_wsi.h
+|    |  ├─webgpu.h
+|    |  └webgpu_cpp.h
+
 ### Copy header files
 
 Copy the three `.h` files in Dawn's **dawn/out/Release/gen/src/include/dawn** folder: `dawn_proc_table.h`, `webgpu.h`, `webgpu_cpp.h`  and puts them into OpenCV's  **opencv/3rdparty/include/dawn** folder .
 Copy the `.h` files in the four directories `dawn`, `dawn_native`, `dawn_platform`, and `dawn_wire` in Dawn's **dawn/src/include/** folder , and put them into OpenCV's  **opencv/3rdparty/include/webgpu/include** folder with the same name respectively.
 
-### Copy dynamic library 
+### Copy dynamic library
 
 Copy the `webgpu_cpp.cpp` file under Dawn’s **out/Release/gen/src/dawn** folder to the `webgpu_cpp.cpp` file in OpenCV’s **modules/dnn/src/webgpu/src** folder. Only copy the content in `namespce wgpu {}`, no need to change the `#include` header file.
 
 - Linux
 
-For **linux**, copy the six files `libc++.so`,`libdawn_native.so`, `libdawn_proc.so`, `libdawn_wire.so`, `libdawn_spvc.so`, `libVkLayer_khronos_validation.so` in Dawn's **out/Release** folder and put them to OpenCV's **opencv/3rdparty/include/webgpu/lib** folder.
+For **linux**, copy the six files `libc++.so`,`libdawn_native.so`, `libdawn_proc.so`, `libdawn_wire.so`, `libshaderc_spvc.so`, `libVkLayer_khronos_validation.so` in Dawn's **out/Release** folder and put them to OpenCV's **opencv/3rdparty/include/webgpu/lib** folder.
 
 - macOS
 
-For **macOS**, copy the five files `libc++.dylib`,`libdawn_native.dylib`, `libdawn_proc.dylib`, `libdawn_wire.dylib`, and `libdawn_spvc.dylib` in Dawn's **out/Release** folder and put them into OpenCV's **opencv/3rdparty/include /webgpu/lib** folder.
+For **macOS**, copy the five files `libc++.dylib`,`libdawn_native.dylib`, `libdawn_proc.dylib`, `libdawn_wire.dylib`, and `libshaderc_spvc.dylib` in Dawn's **out/Release** folder and put them into OpenCV's **opencv/3rdparty/include /webgpu/lib** folder.
 
 ### Test native DNN_BACKEND_WGPU backend
 
