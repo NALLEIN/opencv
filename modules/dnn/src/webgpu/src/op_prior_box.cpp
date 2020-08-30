@@ -113,7 +113,7 @@ bool OpPriorBox::forward(std::vector<Tensor>& ins, Tensor& out)
     else
         tensor_offsets_y_->reshape((const char*)offsets_y_.data(), shape);
     shape[0] = box_widths_.size();
-    if(! tensor_widths_) 
+    if(! tensor_widths_)
         tensor_widths_ = new Tensor(box_widths_.data(), shape);
     else
         tensor_widths_->reshape((const char*)box_widths_.data(), shape);

@@ -15,9 +15,9 @@ Buffer::Buffer(std::shared_ptr<wgpu::Device> device)
              wgpu::BufferUsage::CopySrc;
 }
 
-Buffer::Buffer(std::shared_ptr<wgpu::Device> device, 
-               const void* data, size_t size, 
-               wgpu::BufferUsage usage) 
+Buffer::Buffer(std::shared_ptr<wgpu::Device> device,
+               const void* data, size_t size,
+               wgpu::BufferUsage usage)
 {
     device_ = device;
     usage_ = usage;
@@ -27,13 +27,13 @@ Buffer::Buffer(std::shared_ptr<wgpu::Device> device,
     descriptor.usage = usage;
     WGPU_CHECK_POINTER_RET_VOID(device_);
     buffer_ = device_->CreateBuffer(& descriptor);
-    if(data) 
+    if(data)
     {
         wQueue->WriteBuffer(buffer_, 0, data, size_);
     }
 }
 
-Buffer::Buffer(const void* data, size_t size,  
+Buffer::Buffer(const void* data, size_t size,
                wgpu::BufferUsage usage)
 {
     createContext();
@@ -45,7 +45,7 @@ Buffer::Buffer(const void* data, size_t size,
     descriptor.usage = usage;
     WGPU_CHECK_POINTER_RET_VOID(device_)
     buffer_ = device_->CreateBuffer(& descriptor);
-    if(data) 
+    if(data)
     {
         wQueue->WriteBuffer(buffer_, 0, data, size_);
     }
@@ -54,13 +54,13 @@ Buffer::Buffer(const void* data, size_t size,
 void Buffer::setBufferData(const void * data, size_t size)
 {
     size_ = size;
-    if(data) 
+    if(data)
     {
         wQueue->WriteBuffer(buffer_, 0, data, size_);
     }
 }
 
-const void* Buffer::MapReadAsyncAndWait() 
+const void* Buffer::MapReadAsyncAndWait()
 {
     if(size_ == 0) CV_Error(Error::StsError, "GPU buffer is null");
     if(! gpuReadBuffer_)
@@ -71,18 +71,18 @@ const void* Buffer::MapReadAsyncAndWait()
         gpuReadBuffer_ = device_->CreateBuffer(& desc);
     }
     wgpu::CommandEncoder encoder = device_->CreateCommandEncoder();
-    encoder.CopyBufferToBuffer(buffer_, 0, 
+    encoder.CopyBufferToBuffer(buffer_, 0,
                                gpuReadBuffer_, 0, size_);
     wgpu::CommandBuffer cmdBuffer = encoder.Finish();
     wQueue->Submit(1, &cmdBuffer);
     encoder.Release();
     cmdBuffer.Release();
-    gpuReadBuffer_.MapAsync(wgpu::MapMode::Read, 0, size_, 
+    gpuReadBuffer_.MapAsync(wgpu::MapMode::Read, 0, size_,
     [](WGPUBufferMapAsyncStatus status, void* userdata) {
         Buffer * buffer= static_cast<Buffer *>(userdata);
         buffer->mappedData = buffer->gpuReadBuffer_.GetConstMappedRange(0, buffer->size_);
     }, this);
-    while(mappedData == nullptr) 
+    while(mappedData == nullptr)
     {
 #ifdef __EMSCRIPTEN__
         emscripten_sleep(10);

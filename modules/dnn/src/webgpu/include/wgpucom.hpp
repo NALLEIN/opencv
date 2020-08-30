@@ -23,7 +23,7 @@ enum Format
     wFormatNum
 };
 
-enum OpType 
+enum OpType
 {
     wOpTypeConv,
     wOpTypePool,
@@ -37,21 +37,21 @@ enum OpType
     wOpTypeNum
 };
 
-enum PaddingMode 
-{ 
-    wPaddingModeSame, 
-    wPaddingModeValid, 
-    wPaddingModeCaffe, 
-    wPaddingModeNum 
+enum PaddingMode
+{
+    wPaddingModeSame,
+    wPaddingModeValid,
+    wPaddingModeCaffe,
+    wPaddingModeNum
 };
 
-enum FusedActivationType 
-{ 
-    wNone, 
-    wRelu, 
-    wRelu1, 
-    wRelu6, 
-    wActivationNum 
+enum FusedActivationType
+{
+    wNone,
+    wRelu,
+    wRelu1,
+    wRelu6,
+    wActivationNum
 };
 
 typedef std::vector<int> Shape;

@@ -11,7 +11,7 @@ namespace cv { namespace dnn { namespace webgpu {
 #define LOCAL_SZ_Y 1
 #define LOCAL_SZ_Z 1
 
-struct SoftmaxParam 
+struct SoftmaxParam
 {
     int channel_size;
     int outer_size;
@@ -81,11 +81,11 @@ bool OpSoftmax::forward(Tensor& in, Tensor& out)
         sum_tensor_ = new Tensor(NULL, shape);
     }
 
-    SoftmaxParam param = {channel_size_, outer_size_, channels_, 
+    SoftmaxParam param = {channel_size_, outer_size_, channels_,
                             log_softmax_ == true ? 1 : 0};
     if(! uniformBuffer_) uniformBuffer_ = new Buffer(&param, sizeof(SoftmaxParam));
     else uniformBuffer_->setBufferData(&param, sizeof(SoftmaxParam));
-    
+
     bindTensor(in,  0, bgEntries);
     bindTensor(*max_tensor_,  1, bgEntries);
     bindTensor(*sum_tensor_,  2, bgEntries);

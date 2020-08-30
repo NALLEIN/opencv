@@ -433,7 +433,7 @@ void initDNNTests()
     registerGlobalSkipTag(
         CV_TEST_TAG_DNN_SKIP_WGPU
     );
-#endif  // HAVE_WEBGPU  
+#endif  // HAVE_WEBGPU
 
 #ifdef HAVE_CUDA
     registerGlobalSkipTag(
