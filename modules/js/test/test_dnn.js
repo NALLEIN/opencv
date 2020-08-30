@@ -108,7 +108,7 @@ QUnit.test('test_layer_softmax', async function(assert) {
     };
     const [out, out1] = await loadAndComputeCaffeLayer(url, inputSize);
 
-    const EPSILON = 1;
+    const EPSILON = 0.00001;
     const data1 = out.data;
     const data2 = out1.data;
     assert.equal(data1.length, data2.length);
