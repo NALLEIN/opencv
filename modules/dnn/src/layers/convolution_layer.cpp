@@ -311,8 +311,8 @@ public:
             else if (kernel_size.size() == 2)
                 return backendId == DNN_BACKEND_OPENCV ||
                        (backendId == DNN_BACKEND_HALIDE && !blobs.empty()) ||
-                       (backendId == DNN_BACKEND_VKCOM && haveVulkan()) ||
-                       (backendId == DNN_BACKEND_WGPU && haveWGPU());
+                       (backendId == DNN_BACKEND_VKCOM && haveVulkan() && !blobs.empty()) ||
+                       (backendId == DNN_BACKEND_WGPU && haveWGPU() && !blobs.empty());
             else
                 return false;
         }
