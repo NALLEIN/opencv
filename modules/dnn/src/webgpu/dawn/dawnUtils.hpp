@@ -12,7 +12,7 @@
 #endif  // HAVE_WEBGPU
 #endif  //__EMSCRIPTEN__
 namespace cv { namespace dnn { namespace webgpu {
-#if defined(HAVE_WEBGPU) && defined(__EMSCRIPTEN__)
+#if defined(HAVE_WEBGPU) || (defined(DAWN_EMSDK) && defined(__EMSCRIPTEN__))
 
     wgpu::Device createCppDawnDevice();
 

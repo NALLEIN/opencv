@@ -72,7 +72,7 @@ function asyncForwardWrapper(net) {
 async function loadAndComputeCaffeLayer(url, inputSize) {
     const path = await loadModel(url);
     let net, net1;
-    const input = new cv.Mat(inputSize, cv.CV_32F);
+    const input = cv.Mat.MatND(inputSize, cv.CV_32F);
 
     net = cv.readNetFromCaffe(path.modelPath, '');
     net.setInput(input);

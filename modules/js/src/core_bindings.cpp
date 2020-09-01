@@ -122,11 +122,6 @@ namespace binding_utils
         return emscripten::val(emscripten::memory_view<T>(mat.step1(1), mat.ptr<T>(i,j)));
     }
 
-    cv::Mat* createMatWithDims(const emscripten::val& js_dims, int type)  {
-        std::vector<int> dims = emscripten::vecFromJSArray<int>(js_dims);
-        return new cv::Mat(dims.size(), dims.data(), type);
-    }
-
     cv::Mat* createMat(int rows, int cols, int type, intptr_t data, size_t step)
     {
         return new cv::Mat(rows, cols, type, reinterpret_cast<void*>(data), step);
@@ -148,6 +143,11 @@ namespace binding_utils
             step.call<void>("push", mat.step[i]);
         }
         return step;
+    }
+
+    static Mat dimsMat(const emscripten::val& js_dims, int type) {
+        std::vector<int> dims = emscripten::vecFromJSArray<int>(js_dims);
+        return cv::Mat(dims.size(), dims.data(), type);
     }
 
     static Mat matEye(int rows, int cols, int type)
@@ -448,12 +448,12 @@ EMSCRIPTEN_BINDINGS(binding_utils)
     emscripten::class_<cv::Mat>("Mat")
         .constructor<>()
         .constructor<const Mat&>()
-        // .constructor<Size, int>()
+        .constructor<Size, int>()
         .constructor<int, int, int>()
         .constructor<int, int, int, const Scalar&>()
-        .constructor(&binding_utils::createMatWithDims, allow_raw_pointers())
         .constructor(&binding_utils::createMat, allow_raw_pointers())
 
+        .class_function("MatND", select_overload<Mat(const emscripten::val&, int)>(&binding_utils::dimsMat), allow_raw_pointers())
         .class_function("eye", select_overload<Mat(Size, int)>(&binding_utils::matEye))
         .class_function("eye", select_overload<Mat(int, int, int)>(&binding_utils::matEye))
         .class_function("ones", select_overload<Mat(Size, int)>(&binding_utils::matOnes))
