@@ -3,7 +3,7 @@
 
 #include <unistd.h>
 #include <memory>
-#ifdef __EMSCRIPTEN__
+#if defined(__EMSCRIPTEN__) && defined(DAWN_EMSDK)
 #include <webgpu/webgpu_cpp.h>
 #include <emscripten.h>
 #else

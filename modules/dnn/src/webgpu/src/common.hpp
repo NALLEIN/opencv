@@ -11,7 +11,7 @@
 #include <sstream>
 #include <algorithm>
 #include <memory>
-#ifdef __EMSCRIPTEN__
+#if defined(__EMSCRIPTEN__) && defined(DAWN_EMSDK)
 #include <webgpu/webgpu_cpp.h>
 #else
 #ifdef HAVE_WEBGPU

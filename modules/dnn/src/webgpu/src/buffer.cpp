@@ -84,7 +84,7 @@ const void* Buffer::MapReadAsyncAndWait()
     }, this);
     while(mappedData == nullptr)
     {
-#ifdef __EMSCRIPTEN__
+#if defined(__EMSCRIPTEN__) && defined(DAWN_EMSDK)
         emscripten_sleep(10);
 #else
         device_->Tick();

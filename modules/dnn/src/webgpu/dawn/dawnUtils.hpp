@@ -1,5 +1,5 @@
 #include "../../precomp.hpp"
-#ifdef __EMSCRIPTEN__
+#if defined(__EMSCRIPTEN__) && defined(DAWN_EMSDK)
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #include <emscripten/html5_webgpu.h>
@@ -12,7 +12,7 @@
 #endif  // HAVE_WEBGPU
 #endif  //__EMSCRIPTEN__
 namespace cv { namespace dnn { namespace webgpu {
-#if defined(HAVE_WEBGPU) || defined(__EMSCRIPTEN__)
+#if defined(HAVE_WEBGPU) && defined(__EMSCRIPTEN__)
 
     wgpu::Device createCppDawnDevice();
 

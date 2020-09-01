@@ -70,6 +70,7 @@
 
 /* WebGPU-Dawn support */
 #cmakedefine HAVE_WEBGPU
+#cmakedefine DAWN_EMSDK
 #cmakedefine DAWN_METAL
 
 /* Define to 1 if you have the <inttypes.h> header file. */

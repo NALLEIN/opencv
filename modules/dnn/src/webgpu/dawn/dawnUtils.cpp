@@ -3,7 +3,7 @@
 #include "dawnUtils.hpp"
 #include "opencv2/core/base.hpp"
 namespace cv { namespace dnn { namespace webgpu {
-#ifdef __EMSCRIPTEN__
+#if defined(__EMSCRIPTEN__) && defined(DAWN_EMSDK)
 wgpu::Device createCppDawnDevice() {
     return wgpu::Device::Acquire(emscripten_webgpu_get_device());
 }

@@ -1,6 +1,6 @@
 #ifndef OPENCV_DNN_WEBGPU_TENSOR_HPP
 #define OPENCV_DNN_WEBGPU_TENSOR_HPP
-#ifdef __EMSCRIPTEN__
+#if defined(__EMSCRIPTEN__) && defined(DAWN_EMSDK)
 #include <webgpu/webgpu_cpp.h>
 #else
 #ifdef HAVE_WEBGPU

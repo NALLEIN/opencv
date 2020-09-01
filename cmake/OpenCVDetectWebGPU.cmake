@@ -1,6 +1,8 @@
 ocv_clear_vars(HAVE_WEBGPU)
+ocv_clear_vars(DAWN_EMSDK)
 ocv_clear_vars(DAWN_METAL)
 if(WITH_WEBGPU)
+  set(DAWN_EMSDK 1)
   set(WEBGPU_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/3rdparty/include/webgpu/include")
   set(WEBGPU_LIBRARIES "${PROJECT_SOURCE_DIR}/3rdparty/include/webgpu/lib")
 endif()
