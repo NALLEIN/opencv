@@ -73,5 +73,4 @@
 #include <opencv2/dnn.hpp>
 #include <opencv2/dnn/all_layers.hpp>
 #include <opencv2/dnn/all_layers.hpp>
-
 #include "dnn_common.hpp"

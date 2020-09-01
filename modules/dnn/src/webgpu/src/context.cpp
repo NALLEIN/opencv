@@ -1,7 +1,11 @@
+// This file is part of OpenCV project.
+// It is subject to the license terms in the LICENSE file found in the top-level directory
+// of this distribution and at http://opencv.org/license.html.
+
 #include "../../precomp.hpp"
 #include "common.hpp"
 #include "context.hpp"
-#include "../dawn/dawnUtils.hpp"
+#include "../dawn/dawn_utils.hpp"
 
 namespace cv { namespace dnn { namespace webgpu {
 #ifdef HAVE_WEBGPU
