@@ -46,7 +46,7 @@ std::vector<webgpu::Tensor>  WGPUTensors(const std::vector<Ptr<BackendWrapper> >
     return vec;
 }
 
-WGPUBackendWrapper::WGPUBackendWrapper(Mat& m) : BackendWrapper(DNN_BACKEND_WGPU, DNN_TARGET_WGPU)
+WGPUBackendWrapper::WGPUBackendWrapper(Mat& m) : BackendWrapper(DNN_BACKEND_WEBGPU, DNN_TARGET_WEBGPU)
 {
     copyToTensor(tensor, m);
     host = &m;
@@ -55,7 +55,7 @@ WGPUBackendWrapper::WGPUBackendWrapper(Mat& m) : BackendWrapper(DNN_BACKEND_WGPU
 }
 
 WGPUBackendWrapper::WGPUBackendWrapper(const Ptr<BackendWrapper>& baseBuffer, Mat& m)
-    : BackendWrapper(DNN_BACKEND_WGPU, DNN_TARGET_WGPU)
+    : BackendWrapper(DNN_BACKEND_WEBGPU, DNN_TARGET_WEBGPU)
 {
     Ptr<WGPUBackendWrapper> base = baseBuffer.dynamicCast<WGPUBackendWrapper>();
     CV_Assert(!base.empty());
@@ -104,7 +104,7 @@ webgpu::Tensor WGPUBackendWrapper::getTensor()
 WGPUBackendNode::WGPUBackendNode(const std::vector<Ptr<BackendWrapper> >& inputsWrapper,
                         const std::shared_ptr<webgpu::OpBase> &op,
                         const std::vector<Ptr<BackendWrapper> >& blobsWrapper)
-                        :BackendNode(DNN_BACKEND_WGPU)
+                        :BackendNode(DNN_BACKEND_WEBGPU)
 {
     operation = op;
     inputsWrapper_ = inputsWrapper;

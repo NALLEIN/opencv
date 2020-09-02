@@ -103,7 +103,7 @@ public:
                backendId == DNN_BACKEND_INFERENCE_ENGINE_NGRAPH ||
                (backendId == DNN_BACKEND_INFERENCE_ENGINE_NN_BUILDER_2019 && haveInfEngine() && !logSoftMax) ||
                (backendId == DNN_BACKEND_VKCOM && haveVulkan()) ||
-               (backendId == DNN_BACKEND_WGPU && haveWGPU());
+               (backendId == DNN_BACKEND_WEBGPU && haveWGPU());
     }
 
 #ifdef HAVE_OPENCL

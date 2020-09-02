@@ -312,7 +312,7 @@ public:
                 return backendId == DNN_BACKEND_OPENCV ||
                        (backendId == DNN_BACKEND_HALIDE && !blobs.empty()) ||
                        (backendId == DNN_BACKEND_VKCOM && haveVulkan() && !blobs.empty()) ||
-                       (backendId == DNN_BACKEND_WGPU && haveWGPU() && !blobs.empty());
+                       (backendId == DNN_BACKEND_WEBGPU && haveWGPU() && !blobs.empty());
             else
                 return false;
         }

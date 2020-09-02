@@ -1,4 +1,4 @@
-## Build dawn to enable native implementation for DNN_BACKEND_WGPU  in modules/dnn
+## Build dawn to enable native implementation for DNN_BACKEND_WEBGPU  in modules/dnn
 
 
 ### Build dawn
@@ -58,7 +58,7 @@ For **linux**, copy the six files `libc++.so`,`libdawn_native.so`, `libdawn_proc
 
 For **macOS**, copy the five files `libc++.dylib`,`libdawn_native.dylib`, `libdawn_proc.dylib`, `libdawn_wire.dylib`, and `libshaderc_spvc.dylib` in Dawn's **out/Release** folder and put them into OpenCV's **opencv/3rdparty/include /webgpu/lib** folder.
 
-### Test native DNN_BACKEND_WGPU backend
+### Test native DNN_BACKEND_WEBGPU backend
 
 Following these instructions to do the test:
 ```

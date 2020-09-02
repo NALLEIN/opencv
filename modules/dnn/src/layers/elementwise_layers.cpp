@@ -320,7 +320,7 @@ struct ReLUFunctor : public BaseFunctor
                backendId == DNN_BACKEND_CUDA ||
                backendId == DNN_BACKEND_HALIDE ||
                backendId == DNN_BACKEND_VKCOM ||
-               backendId == DNN_BACKEND_WGPU;
+               backendId == DNN_BACKEND_WEBGPU;
     }
 
     void apply(const float* srcptr, float* dstptr, int len, size_t planeSize, int cn0, int cn1) const

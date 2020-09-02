@@ -110,7 +110,7 @@ public:
                backendId == DNN_BACKEND_CUDA ||
                backendId == DNN_BACKEND_HALIDE ||
                (backendId == DNN_BACKEND_VKCOM && haveVulkan() && (size % 2 == 1) && (type == CHANNEL_NRM))
-               || (backendId == DNN_BACKEND_WGPU && haveWGPU() && (size % 2 == 1) && (type == CHANNEL_NRM));
+               || (backendId == DNN_BACKEND_WEBGPU && haveWGPU() && (size % 2 == 1) && (type == CHANNEL_NRM));
     }
 
 #ifdef HAVE_OPENCL

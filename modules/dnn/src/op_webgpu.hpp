@@ -7,7 +7,7 @@
 
 #include <opencv2/dnn/shape_utils.hpp>
 #ifdef HAVE_WEBGPU
-#include "webgpu/include/wgpucom.hpp"
+#include "webgpu/include/webgpu_common.hpp"
 #endif  // HAVE_WEBGPU
 
 namespace cv

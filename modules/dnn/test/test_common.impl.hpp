@@ -25,7 +25,7 @@ void PrintTo(const cv::dnn::Backend& v, std::ostream* os)
     case DNN_BACKEND_HALIDE: *os << "HALIDE"; return;
     case DNN_BACKEND_INFERENCE_ENGINE: *os << "DLIE*"; return;
     case DNN_BACKEND_VKCOM: *os << "VKCOM"; return;
-    case DNN_BACKEND_WGPU: *os << "WEBGPU"; return;
+    case DNN_BACKEND_WEBGPU: *os << "WEBGPU"; return;
     case DNN_BACKEND_OPENCV: *os << "OCV"; return;
     case DNN_BACKEND_CUDA: *os << "CUDA"; return;
     case DNN_BACKEND_INFERENCE_ENGINE_NN_BUILDER_2019: *os << "DLIE"; return;
@@ -42,7 +42,7 @@ void PrintTo(const cv::dnn::Target& v, std::ostream* os)
     case DNN_TARGET_OPENCL_FP16: *os << "OCL_FP16"; return;
     case DNN_TARGET_MYRIAD: *os << "MYRIAD"; return;
     case DNN_TARGET_VULKAN: *os << "VULKAN"; return;
-    case DNN_TARGET_WGPU: *os << "DAWN"; return;
+    case DNN_TARGET_WEBGPU: *os << "DAWN"; return;
     case DNN_TARGET_FPGA: *os << "FPGA"; return;
     case DNN_TARGET_CUDA: *os << "CUDA"; return;
     case DNN_TARGET_CUDA_FP16: *os << "CUDA_FP16"; return;
@@ -252,9 +252,9 @@ testing::internal::ParamGenerator< tuple<Backend, Target> > dnnBackendsAndTarget
 
     if(withWGPU)
     {
-        available = getAvailableTargets(DNN_BACKEND_WGPU);
+        available = getAvailableTargets(DNN_BACKEND_WEBGPU);
         for (std::vector< Target >::const_iterator i = available.begin(); i != available.end(); ++i)
-            targets.push_back(make_tuple(DNN_BACKEND_WGPU, *i));
+            targets.push_back(make_tuple(DNN_BACKEND_WEBGPU, *i));
     }
 
 #ifdef HAVE_CUDA

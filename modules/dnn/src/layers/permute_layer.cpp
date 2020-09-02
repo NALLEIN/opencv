@@ -118,7 +118,7 @@ public:
                backendId == DNN_BACKEND_CUDA ||
                ((backendId == DNN_BACKEND_INFERENCE_ENGINE_NN_BUILDER_2019 || backendId == DNN_BACKEND_INFERENCE_ENGINE_NGRAPH) && haveInfEngine()) ||
                (backendId == DNN_BACKEND_VKCOM && haveVulkan()) ||
-               (backendId == DNN_BACKEND_WGPU && haveWGPU());;
+               (backendId == DNN_BACKEND_WEBGPU && haveWGPU());;
     }
 
     bool getMemoryShapes(const std::vector<MatShape> &inputs,

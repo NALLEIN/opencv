@@ -76,8 +76,8 @@ async function loadAndComputeCaffeLayer(url, inputSize) {
 
     net = cv.readNetFromCaffe(path.modelPath, '');
     net.setInput(input);
-    net.setPreferableBackend(cv.DNN_BACKEND_WGPU);
-    net.setPreferableTarget(cv.DNN_TARGET_WGPU);
+    net.setPreferableBackend(cv.DNN_BACKEND_WEBGPU);
+    net.setPreferableTarget(cv.DNN_TARGET_WEBGPU);
     const start = performance.now();
     const out = await asyncForwardWrapper(net);
     const time = (performance.now() - start).toFixed(3);

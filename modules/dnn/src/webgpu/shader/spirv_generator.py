@@ -15,7 +15,7 @@ license_decl = \
 '// It is subject to the license terms in the LICENSE file found in the top-level directory\n'\
 '// of this distribution and at http://opencv.org/license.html.\n'\
 '//\n'\
-'// Copyright (C) 2018, Intel Corporation, all rights reserved.\n'\
+'// Copyright (C) 2020, Intel Corporation, all rights reserved.\n'\
 '// Third party copyrights are property of their respective owners.\n\n'
 precomp = '#include \"../../precomp.hpp\"\n'
 ns_head = '\nnamespace cv { namespace dnn { namespace webgpu {\n\n'
@@ -56,7 +56,7 @@ for i in range(0, len(list)):
     os.system(cmd)
 
     infile_name = spv_txt_file
-    outfile_name = prefix + '_spv.cpp'
+    outfile_name = prefix + '_spirv.cpp'
     array_name = prefix + '_spv'
     infile = open(infile_name, 'r')
     outfile = open(outfile_name, 'w')

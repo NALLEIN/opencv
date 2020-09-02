@@ -231,7 +231,7 @@ private:
 
 #ifdef HAVE_WEBGPU
         if(haveWGPU())
-            backends.push_back(std::make_pair(DNN_BACKEND_WGPU, DNN_TARGET_WGPU));
+            backends.push_back(std::make_pair(DNN_BACKEND_WEBGPU, DNN_TARGET_WEBGPU));
 #endif  // HAVE_WEBGPU
 
 #ifdef HAVE_CUDA
@@ -1118,7 +1118,7 @@ static Ptr<BackendWrapper> wrapMat(int backendId, int targetId, cv::Mat& m)
         return Ptr<BackendWrapper>(new VkComBackendWrapper(m));
 #endif  // HAVE_VULKAN
     }
-    else if (backendId == DNN_BACKEND_WGPU)
+    else if (backendId == DNN_BACKEND_WEBGPU)
     {
         CV_Assert(haveWGPU());
 #ifdef HAVE_WEBGPU
@@ -1263,7 +1263,7 @@ struct Net::Impl : public detail::NetImplBase
                 return Ptr<BackendWrapper>(new VkComBackendWrapper(baseBuffer, host));
   #endif
             }
-            else if (preferableBackend == DNN_BACKEND_WGPU)
+            else if (preferableBackend == DNN_BACKEND_WEBGPU)
             {
 #ifdef HAVE_WEBGPU
                 return Ptr<BackendWrapper>(new WGPUBackendWrapper(baseBuffer, host));
@@ -1403,8 +1403,8 @@ struct Net::Impl : public detail::NetImplBase
         }
         CV_Assert(preferableBackend != DNN_BACKEND_VKCOM ||
                   preferableTarget == DNN_TARGET_VULKAN);
-        CV_Assert(preferableBackend != DNN_BACKEND_WGPU ||
-                  preferableTarget == DNN_TARGET_WGPU);
+        CV_Assert(preferableBackend != DNN_BACKEND_WEBGPU ||
+                  preferableTarget == DNN_TARGET_WEBGPU);
         CV_Assert(preferableBackend != DNN_BACKEND_CUDA ||
                   IS_DNN_CUDA_TARGET(preferableTarget));
         if (!netWasAllocated || this->blobsToKeep != blobsToKeep_)
@@ -1441,7 +1441,7 @@ struct Net::Impl : public detail::NetImplBase
                 preferableBackend = DNN_BACKEND_OPENCV;
                 preferableTarget = DNN_TARGET_CPU;
             }
-            if (preferableBackend == DNN_BACKEND_WGPU && !haveWGPU())
+            if (preferableBackend == DNN_BACKEND_WEBGPU && !haveWGPU())
             {
                 preferableBackend = DNN_BACKEND_OPENCV;
                 preferableTarget = DNN_TARGET_CPU;
@@ -1632,7 +1632,7 @@ struct Net::Impl : public detail::NetImplBase
         }
         else if (preferableBackend == DNN_BACKEND_VKCOM)
             initVkComBackend();
-        else if (preferableBackend == DNN_BACKEND_WGPU)
+        else if (preferableBackend == DNN_BACKEND_WEBGPU)
             initWGPUBackend();
         else if (preferableBackend == DNN_BACKEND_CUDA)
             initCUDABackend(blobsToKeep_);
@@ -2370,7 +2370,7 @@ struct Net::Impl : public detail::NetImplBase
     void initWGPUBackend()
     {
         CV_TRACE_FUNCTION();
-        CV_Assert(preferableBackend == DNN_BACKEND_WGPU);
+        CV_Assert(preferableBackend == DNN_BACKEND_WEBGPU);
 #ifdef HAVE_WEBGPU
     if (!haveWGPU())
         return;
@@ -2389,13 +2389,13 @@ struct Net::Impl : public detail::NetImplBase
 
             try
             {
-                ld.backendNodes[DNN_BACKEND_WGPU] =
+                ld.backendNodes[DNN_BACKEND_WEBGPU] =
                     layer->initWGPU(ld.inputBlobsWrappers);
             }
             catch (const cv::Exception& e)
             {
                 CV_LOG_ERROR(NULL, "initWGPU failed, fallback to CPU implementation. " << e.what());
-                ld.backendNodes[DNN_BACKEND_WGPU] = Ptr<BackendNode>();
+                ld.backendNodes[DNN_BACKEND_WEBGPU] = Ptr<BackendNode>();
             }
         }
 #endif  // HAVE_WEBGPU
@@ -3373,7 +3373,7 @@ struct Net::Impl : public detail::NetImplBase
                         forwardLayer(ld);
                     }
                 }
-                else if (preferableBackend == DNN_BACKEND_WGPU)
+                else if (preferableBackend == DNN_BACKEND_WEBGPU)
                 {
                     try
                     {
@@ -4423,7 +4423,7 @@ string Net::Impl::dump()
         case DNN_BACKEND_OPENCV: backend = "OCV/"; break;
         case DNN_BACKEND_VKCOM: backend = "VULKAN/"; break;
         case DNN_BACKEND_CUDA: backend = "CUDA/"; break;
-        case DNN_BACKEND_WGPU: backend = "WEBGPU/"; break;
+        case DNN_BACKEND_WEBGPU: backend = "WEBGPU/"; break;
         // don't use default:
     }
     out << "digraph G {\n";
@@ -4561,7 +4561,7 @@ string Net::Impl::dump()
             case DNN_TARGET_FPGA: out << "FPGA"; colorId = 4; break;
             case DNN_TARGET_CUDA: out << "CUDA"; colorId = 5; break;
             case DNN_TARGET_CUDA_FP16: out << "CUDA_FP16"; colorId = 6; break;
-            case DNN_TARGET_WGPU: out<< "WEBGPU"; colorId = 8; break;
+            case DNN_TARGET_WEBGPU: out<< "WEBGPU"; colorId = 8; break;
             // don't use default:
         }
         out << "\\n";  // align center

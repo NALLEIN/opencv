@@ -220,7 +220,7 @@ public:
             return !computeMaxIdx && type != STOCHASTIC;
         }
         if (backendId == DNN_BACKEND_OPENCV || backendId == DNN_BACKEND_HALIDE ||
-            backendId == DNN_BACKEND_VKCOM || backendId == DNN_BACKEND_WGPU)
+            backendId == DNN_BACKEND_VKCOM || backendId == DNN_BACKEND_WEBGPU)
         {
             if (kernel_size.size() == 3)
                 return (backendId == DNN_BACKEND_OPENCV && preferableTarget == DNN_TARGET_CPU);
@@ -230,7 +230,7 @@ public:
                            (type == MAX || (type == AVE && !pad_t && !pad_l && !pad_b && !pad_r))) ||
                        (backendId == DNN_BACKEND_VKCOM && haveVulkan() &&
                            (type == MAX || type == AVE)) ||
-                        (backendId == DNN_BACKEND_WGPU && haveWGPU() &&
+                        (backendId == DNN_BACKEND_WEBGPU && haveWGPU() &&
                            (type == MAX || type == AVE));
             else
                 return false;

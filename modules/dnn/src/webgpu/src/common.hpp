@@ -24,7 +24,7 @@
 #endif
 #include "opencv2/core/utils/logger.hpp"
 #include "../shader/spv_shader.hpp"
-#include "../include/wgpucom.hpp"
+#include "../include/webgpu_common.hpp"
 namespace cv { namespace dnn { namespace webgpu {
 #ifdef HAVE_WEBGPU
 extern std::shared_ptr<wgpu::Device> wDevice;
