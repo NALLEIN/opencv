@@ -3,8 +3,7 @@
 
 ### Build dawn and set the environment variable
 
- Refer to [Dawn's build instructions](https://dawn.googlesource.com/dawn/+/HEAD/docs/buiding.md)  to complete the compilation of Dawn, and the directory structure is retained in opencv/3rdparty/include/webgpu to facilitate subsequent copying of the required files. Set environment variable `WEBGPU_ROOT_DIR` to enable native dawn build:
- `export WEBGPU_ROOT_DIR=${PATH_TO_Dawn}`.
+ Refer to [Dawn's build instructions](https://dawn.googlesource.com/dawn/+/HEAD/docs/buiding.md)  to complete the build of Dawn. Set environment variable `WEBGPU_ROOT_DIR` to enable native DNN_BACKEND_WEBGPU build: `export WEBGPU_ROOT_DIR=${PATH_TO_Dawn}`.
 
 ### Test native DNN_BACKEND_WEBGPU backend
 Add -DWITH_WEBGPU=ON to the cmake command to build the webgpu module such as:
